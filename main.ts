@@ -28,6 +28,11 @@ if (points.length < 1 || points.length > 200) {
 if (LINE.trim().length === 0) {
   fail("line is only whitespace");
 }
+// One line means one line: no newline or control character may
+// hide inside the text and split the entry file in two.
+if (/[\u0000-\u001f\u007f]/.test(LINE)) {
+  fail("line contains a control character");
+}
 
 // One sentence: exactly one sentence-closing mark, and it must
 // be the last character of the line.
